@@ -5,25 +5,28 @@ import (
 	"reflect"
 )
 
+type Test interface {
+	Run(Test) //TODO: signature looks weird?
+	SetUp()
+}
+
+// Base test struct that every other Test embeds.
 type TestCase struct {
 	Name string
 }
 
-func (t TestCase) Run(any interface{}) {
-	refValue := reflect.ValueOf(any)
+func (t TestCase) SetUp() {
+
+}
+
+func (t TestCase) Run(test Test) {
+	refValue := reflect.ValueOf(test)
 	method := refValue.MethodByName(t.Name)
 	if !method.IsValid() {
 		log.Printf("Method: %s not found\n", t.Name)
 		return
 	}
+
+	test.SetUp()
 	method.Call(nil)
-}
-
-type WasRun struct {
-	TestCase
-	Flag bool // flag that indicates whether the testMethod was invoked
-}
-
-func (w *WasRun) TestMethod() {
-	w.Flag = true
 }

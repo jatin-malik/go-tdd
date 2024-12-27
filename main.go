@@ -1,10 +1,16 @@
 package main
 
-import xunit "github.com/jatin-malik/go-tdd/xUnit"
+import (
+	xunitTests "github.com/jatin-malik/go-tdd/xUnit/tests"
+)
 
 func main() {
 
 	// test suite for xunit
-	test := xunit.TestCaseTest{TestCase: xunit.TestCase{"RunTest"}}
+	test := xunitTests.NewTestCaseTest("TestRunning")
 	test.Run(&test)
+
+	test = xunitTests.NewTestCaseTest("TestSetup")
+	test.Run(&test)
+
 }
