@@ -4,8 +4,7 @@ import xunit "github.com/jatin-malik/go-tdd/xUnit"
 
 type wasRun struct {
 	xunit.TestCase
-	runFlag   bool // flag that indicates whether the testMethod was invoked
-	setupFlag bool // flag that indicates whether the setUp was done
+	callLog string
 }
 
 func newWasRun(name string) wasRun {
@@ -13,9 +12,13 @@ func newWasRun(name string) wasRun {
 }
 
 func (w *wasRun) TestMethod() {
-	w.runFlag = true
+	w.callLog += " TestMethod"
 }
 
 func (w *wasRun) SetUp() {
-	w.setupFlag = true
+	w.callLog = "setup"
+}
+
+func (w *wasRun) TearDown() {
+	w.callLog += " tearDown"
 }

@@ -8,6 +8,7 @@ import (
 type Test interface {
 	Run(Test) //TODO: signature looks weird?
 	SetUp()
+	TearDown()
 }
 
 // Base test struct that every other Test embeds.
@@ -16,6 +17,10 @@ type TestCase struct {
 }
 
 func (t TestCase) SetUp() {
+
+}
+
+func (t TestCase) TearDown() {
 
 }
 
@@ -29,4 +34,5 @@ func (t TestCase) Run(test Test) {
 
 	test.SetUp()
 	method.Call(nil)
+	test.TearDown()
 }

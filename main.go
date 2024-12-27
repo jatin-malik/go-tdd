@@ -5,12 +5,7 @@ import (
 )
 
 func main() {
-
-	// test suite for xunit
-	test := xunitTests.NewTestCaseTest("TestRunning")
-	test.Run(&test)
-
-	test = xunitTests.NewTestCaseTest("TestSetup")
+	test := xunitTests.NewTestCaseTest("TestTemplateMethod")
 	test.Run(&test)
 
 }
