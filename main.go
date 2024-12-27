@@ -1,14 +1,10 @@
 package main
 
-import (
-	"fmt"
-
-	xunit "github.com/jatin-malik/go-tdd/xUnit"
-)
+import xunit "github.com/jatin-malik/go-tdd/xUnit"
 
 func main() {
-	test := xunit.NewWasRun("testMethod")
-	fmt.Println(test.Flag)
-	test.Run()
-	fmt.Println(test.Flag)
+
+	// test suite for xunit
+	test := xunit.TestCaseTest{TestCase: xunit.TestCase{"RunTest"}}
+	test.Run(&test)
 }
