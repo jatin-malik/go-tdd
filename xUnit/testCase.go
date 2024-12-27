@@ -1,25 +1,31 @@
 package xunit
 
-import (
-	"log"
-	"reflect"
-)
+import "fmt"
 
 type WasRun struct {
-	Name string
-	Flag bool // flag that indicates whether the testMethod was invoked
+	Name           string
+	Flag           bool // flag that indicates whether the testMethod was invoked
+	methodRegistry map[string]func()
+}
+
+func NewWasRun(name string) *WasRun {
+	wasRun := WasRun{Name: name}
+	wasRun.methodRegistry = map[string]func(){
+		"Run":        wasRun.Run,
+		"testMethod": wasRun.testMethod,
+	}
+	return &wasRun
 }
 
 func (w *WasRun) Run() {
-	refValue := reflect.ValueOf(w)
-	method := refValue.MethodByName(w.Name)
-	if !method.IsValid() {
-		log.Printf("Method: %s not found\n", w.Name)
+	if method, ok := w.methodRegistry[w.Name]; !ok {
+		fmt.Printf("method: %s not found", w.Name)
 		return
+	} else {
+		method()
 	}
-	method.Call(nil)
 }
 
-func (w *WasRun) TestMethod() {
+func (w *WasRun) testMethod() {
 	w.Flag = true
 }

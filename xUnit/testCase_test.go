@@ -9,7 +9,7 @@ import (
 )
 
 func TestTestMethodInvocation(t *testing.T) {
-	test := &xunit.WasRun{"TestMethod", false}
+	test := xunit.NewWasRun("testMethod")
 	fmt.Println(test.Flag)
 	test.Run()
 	assert.True(t, test.Flag)
