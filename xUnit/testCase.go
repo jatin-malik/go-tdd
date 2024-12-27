@@ -10,6 +10,8 @@ type WasRun struct {
 
 func NewWasRun(name string) *WasRun {
 	wasRun := WasRun{Name: name}
+
+	// Keep this updated. Could have used reflection but unexported methods are a pain!
 	wasRun.methodRegistry = map[string]func(){
 		"Run":        wasRun.Run,
 		"testMethod": wasRun.testMethod,
