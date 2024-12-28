@@ -6,9 +6,10 @@ import (
 )
 
 type Test interface {
-	Run(Test) //TODO: signature looks weird?
+	Run(Test, *TestResult) //TODO: signature looks weird?
 	SetUp()
 	TearDown()
+	Suite() *TestSuite
 }
 
 // Base test struct that every other Test embeds.
@@ -24,11 +25,25 @@ func (t TestCase) TearDown() {
 
 }
 
-func (t TestCase) Run(test Test) {
+func (t TestCase) Suite() *TestSuite {
+	log.Println("suite not implemented in embedding test")
+	return NewTestSuite()
+}
+
+func (t TestCase) Run(test Test, result *TestResult) {
+	defer func() {
+		if r := recover(); r != nil {
+			test.TearDown()
+			result.TestFailed()
+			return
+		}
+	}()
+
+	result.TestStarted()
 	refValue := reflect.ValueOf(test)
 	method := refValue.MethodByName(t.Name)
 	if !method.IsValid() {
-		log.Printf("Method: %s not found\n", t.Name)
+		result.TestFailed()
 		return
 	}
 
